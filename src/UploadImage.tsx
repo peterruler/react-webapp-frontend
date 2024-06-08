@@ -39,7 +39,7 @@ const UploadImage: React.FC = () => {
         event.preventDefault();
 
         if (!image.data) {
-            setStatus('No image selected');
+            setStatus('Kein Bild ausgewählt');
             return;
         }
         const response = await fetch('http://keepitnative.xyz:4000/image', {
@@ -57,7 +57,8 @@ const UploadImage: React.FC = () => {
             setImage(img);
             setStatus(data);
         } else {
-            setStatus('Upload failed');
+            displayLoader("hide");
+            setStatus('Upload nicht erfolgreich');
         }
     };
 
