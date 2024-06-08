@@ -1,3 +1,13 @@
+# demo
+`http://keepitnative.xyz:3000`
+(if server is not down, then server should work as expected on non ssl)
+
+# build
+`npm run build`
+
+# run
+forever start app.js
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
