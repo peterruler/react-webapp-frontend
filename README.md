@@ -3,6 +3,9 @@
 (if server is not down, then server should work as expected on non ssl)
 
 # build
+`npm audit fix --force`
+`rm package-lock.json`
+`npm i`
 `npm run build`
 
 # run
