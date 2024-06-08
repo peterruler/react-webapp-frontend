@@ -1,15 +1,15 @@
 # demo
-`http://keepitnative.xyz:3000`
-(if server is not down, then server should work as expected on non ssl)
+- [Demo on webserver](http://keepitnative.xyz:5000)
+- (if server is up, then server should work as expected on non ssl)
 
 # build
-`npm audit fix --force`
-`rm package-lock.json`
-`npm i`
-`npm run build`
+- `npm audit fix --force`
+- `rm package-lock.json`
+- `npm i`
+- `npm run build`
 
 # run
-forever start app.js
+- `forever start app.js`
 
 # Getting Started with Create React App
 
