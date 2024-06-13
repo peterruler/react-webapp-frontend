@@ -24,8 +24,8 @@ const UploadImage: React.FC = () => {
         displayLoader("show");
         const file = event.target.files?.[0];
         if (file) {
-            const obj2 = await resolvePromise(file);
-            setImage(obj2);
+            const obj = await resolvePromise(file);
+            setImage(obj);
             setTimeout(triggerSubmit, 200);
         }
     };
