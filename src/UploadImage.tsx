@@ -8,32 +8,37 @@ interface ImageUploadState {
 const UploadImage: React.FC = () => {
     const [status, setStatus] = useState<string>('');
     const [image, setImage] = useState<ImageUploadState>({ preview: '', data: null });
-    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const refSubmitButton = useRef<HTMLButtonElement>(null);
+
+    const resolvePromise = (file: File): Promise<ImageUploadState> => {
+        const obj: ImageUploadState = {
+            preview: URL.createObjectURL(file),
+            data: file
+        };
+        return new Promise((resolve) => {
+            resolve(obj);
+        });
+    }
+
+    const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         displayLoader("show");
-        const target = event.target as HTMLInputElement;
-        const file = target.files?.[0];
+        const file = event.target.files?.[0];
         if (file) {
-            setImage({
-                preview: URL.createObjectURL(file),
-                data: file
-            });
-            setTimeout(function () {
-                triggerSubmit();
-            }, 2000);
+            const obj2 = await resolvePromise(file);
+            setImage(obj2);
+            setTimeout(triggerSubmit, 200);
         }
-    };
-    
-    const triggerSubmit = () => {
-        (refSubmitButton.current! as HTMLInputElement).click();
     };
 
-    const displayLoader = (flag :String) => {
-        let showHide = "hidden";
-        if (flag === "show") {
-          showHide = "visible";
-        }
-        (document.querySelector(".loader")! as HTMLInputElement).style.visibility = showHide;
-      };
+    const triggerSubmit = () => {
+        refSubmitButton.current?.click();
+    };
+
+    const displayLoader = (flag: string) => {
+        const showHide = flag === "show" ? "visible" : "hidden";
+        const loader = document.querySelector(".loader") as HTMLElement;
+        loader.style.visibility = showHide;
+    };
 
     const handleImageUpload = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -42,29 +47,28 @@ const UploadImage: React.FC = () => {
             setStatus('Kein Bild ausgewählt');
             return;
         }
+
         const response = await fetch('http://keepitnative.xyz:4000/image', {
             method: 'POST',
             body: image.data
         });
 
+        displayLoader("hide");
+
         if (response.ok) {
-            displayLoader("hide");
             const data = await response.text();
             setStatus(data);
         } else {
-            displayLoader("hide");
             setStatus('Upload nicht erfolgreich');
         }
     };
-
-    const refSubmitButton = useRef(null);
 
     return (
         <>
             <h1>Katzen & Hunde Erkennung</h1>
             <div id="preview">
                 {image.preview && (
-                    <img src={image.preview} width="100" height="100" />
+                    <img src={image.preview} width="100" height="100" alt="Preview" />
                 )}
             </div>
             <form onSubmit={handleImageUpload} id="form" encType="multipart/form-data">
@@ -78,9 +82,10 @@ const UploadImage: React.FC = () => {
                         onChange={handleImageChange}
                     />
                 </label>
-                <button hidden={true} ref={refSubmitButton} type={"submit"} />
+                <button hidden={true} ref={refSubmitButton} type="submit" />
             </form>
             <div id="status">{status && <h4>{status}</h4>}</div>
+            <div className="loader" style={{ visibility: 'hidden' }}>Loading...</div>
         </>
     );
 };
