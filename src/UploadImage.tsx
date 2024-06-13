@@ -50,11 +50,6 @@ const UploadImage: React.FC = () => {
         if (response.ok) {
             displayLoader("hide");
             const data = await response.text();
-            const img = {
-                preview: URL.createObjectURL(image.data),
-                data: image.data,
-            };
-            setImage(img);
             setStatus(data);
         } else {
             displayLoader("hide");
