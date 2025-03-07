@@ -4,7 +4,8 @@ This project is a React web application that allows users to take a photo of a c
 
 ## Demo
 
-- [Demo on webserver](http://keepitnative.xyz:5000) (if the server is up, it should work as expected on non-SSL)
+- The Webapp is no longer online on [http://keepitnative.xyz:5000](http://keepitnative.xyz:5000)
+- Please use a local installation instead to test the application
 
 ## Getting Started
 
